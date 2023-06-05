@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Jira Software Configuration</title>
+    </head>
+    <body>
+        <h1>Configure Jira Software</h1>
+        <form action="{% url 'configure_jira' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+        <h2>Jira Software Configured</h2>
+        {% if jiras %}
+            <table>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>URL</th>
+                <th>Repository Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {% for jira in jiras %}
+            <tr>
+                <td>{{ jira.username }}</td>
+                <td>{{ jira.password }}</td>
+                <td>{{ jira.url }}</td>
+                <td>{{ jira.repository_name }}</td>
+                <td><a href="{% url 'jira_edit' jira.id %}">Edit</a></td>
+                <td><a href="{% url 'jira_delete' jira.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+            <p>No Jira Software configured.</p>
+        {% endif %}
+    </body>
+</html>
